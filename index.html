@@ -6,88 +6,157 @@
   <title>Agni Shakti | Autonomous Firefighting Drone</title>
   <style>
     :root{
-      --bg1:#090909;
-      --bg2:#141414;
+      --bg1:#080808;
+      --bg2:#131313;
       --card:rgba(255,255,255,.08);
-      --card2:rgba(255,255,255,.12);
-      --text:#f4f4f4;
-      --muted:#b9b9b9;
+      --line:rgba(255,255,255,.12);
+      --text:#f5f5f5;
+      --muted:#bcbcbc;
       --accent:#ff4d2d;
       --accent2:#ffb347;
-      --line:rgba(255,255,255,.12);
-      --shadow:0 20px 60px rgba(0,0,0,.45);
+      --shadow:0 24px 70px rgba(0,0,0,.5);
     }
+
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
       margin:0;
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-family:Inter,system-ui,Arial,sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at top left, rgba(255,77,45,.25), transparent 30%),
-        radial-gradient(circle at top right, rgba(255,179,71,.18), transparent 28%),
-        linear-gradient(160deg, var(--bg1), var(--bg2));
+        radial-gradient(circle at 15% 10%, rgba(255,77,45,.26), transparent 24%),
+        radial-gradient(circle at 85% 5%, rgba(255,179,71,.16), transparent 22%),
+        linear-gradient(160deg,var(--bg1),var(--bg2));
       overflow-x:hidden;
     }
+
     body::before{
       content:"";
       position:fixed;
       inset:0;
       background:
-        linear-gradient(120deg, transparent 0 48%, rgba(255,255,255,.03) 50%, transparent 52% 100%);
-      background-size:240px 240px;
-      opacity:.25;
+        linear-gradient(120deg, transparent 0 48%, rgba(255,255,255,.03) 50%, transparent 52%);
+      background-size:260px 260px;
+      opacity:.22;
       pointer-events:none;
-      animation: drift 14s linear infinite;
+      animation:gridmove 18s linear infinite;
     }
-    @keyframes drift{from{transform:translateX(-40px)}to{transform:translateX(40px)}}
 
-    .container{width:min(1100px,92vw); margin:0 auto}
+    @keyframes gridmove{
+      from{transform:translateX(-40px)}
+      to{transform:translateX(40px)}
+    }
+
+    .loader{
+      position:fixed;
+      inset:0;
+      background:#060606;
+      z-index:9999;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:18px;
+      transition:opacity .6s ease, visibility .6s ease;
+    }
+    .loader.hide{opacity:0; visibility:hidden}
+    .loader-ring{
+      width:72px;height:72px;border-radius:50%;
+      border:4px solid rgba(255,255,255,.12);
+      border-top-color:var(--accent);
+      animation:spin 1s linear infinite;
+      box-shadow:0 0 30px rgba(255,77,45,.35);
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loader span{color:var(--muted); letter-spacing:.2em; font-size:.82rem}
+
     nav{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(16px);
-      background:rgba(10,10,10,.55);
+      position:sticky;
+      top:0;
+      z-index:100;
+      backdrop-filter:blur(16px);
+      background:rgba(8,8,8,.6);
       border-bottom:1px solid var(--line);
     }
+    .container{width:min(1120px,92vw); margin:0 auto}
     .navwrap{display:flex; justify-content:space-between; align-items:center; padding:16px 0}
-    .brand{font-weight:800; letter-spacing:.08em}
+    .brand{font-weight:900; letter-spacing:.08em}
     .brand span{color:var(--accent)}
     .navlinks{display:flex; gap:18px; flex-wrap:wrap}
     .navlinks a{
       color:var(--muted); text-decoration:none; font-size:.95rem;
       transition:.25s ease;
+      position:relative;
     }
-    .navlinks a:hover{color:#fff; text-shadow:0 0 16px rgba(255,77,45,.65)}
+    .navlinks a::after{
+      content:"";
+      position:absolute;
+      left:0; bottom:-6px;
+      width:100%; height:2px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      transform:scaleX(0);
+      transform-origin:left;
+      transition:.25s ease;
+    }
+    .navlinks a:hover{color:#fff}
+    .navlinks a:hover::after{transform:scaleX(1)}
 
-    .hero{padding:90px 0 50px; position:relative}
+    .hero{padding:84px 0 40px}
     .hero-grid{
-      display:grid; grid-template-columns:1.35fr .65fr; gap:26px; align-items:stretch;
+      display:grid;
+      grid-template-columns:1.35fr .65fr;
+      gap:26px;
+      align-items:stretch;
     }
+
     .panel{
-      background:linear-gradient(180deg, var(--card), rgba(255,255,255,.05));
-      border:1px solid var(--line);
       border-radius:24px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid var(--line);
       box-shadow:var(--shadow);
-      backdrop-filter: blur(16px);
+      backdrop-filter:blur(18px);
     }
-    .hero-main{padding:38px}
+
+    .hero-main{padding:38px; position:relative; overflow:hidden}
+    .hero-main::before{
+      content:"";
+      position:absolute;
+      inset:-80px -80px auto auto;
+      width:280px;
+      height:280px;
+      background:radial-gradient(circle, rgba(255,77,45,.22), transparent 68%);
+      filter:blur(12px);
+      animation:floatglow 5s ease-in-out infinite;
+    }
+    @keyframes floatglow{
+      50%{transform:translate(-22px,16px) scale(1.08)}
+    }
+
     .eyebrow{
-      display:inline-flex; gap:10px; align-items:center;
-      padding:10px 14px; border:1px solid var(--line); border-radius:999px;
-      color:var(--muted); font-size:.9rem; background:rgba(255,255,255,.04);
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 14px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
+      font-size:.9rem;
     }
-    .pulse{
-      width:10px; height:10px; border-radius:50%;
+    .dot{
+      width:10px;height:10px;border-radius:50%;
       background:var(--accent);
       box-shadow:0 0 18px var(--accent);
       animation:pulse 1.8s infinite;
     }
-    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
+    @keyframes pulse{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.6)}
+    }
+
     h1{
-      margin:18px 0 10px;
-      font-size:clamp(3rem,7vw,5.8rem);
+      margin:18px 0 12px;
+      font-size:clamp(3rem,7vw,6rem);
       line-height:.95;
-      letter-spacing:-.04em;
+      letter-spacing:-.05em;
     }
     .gradient-text{
       background:linear-gradient(90deg,var(--accent),var(--accent2),#fff);
@@ -97,130 +166,236 @@
     }
     .sub{
       color:var(--muted);
-      font-size:1.08rem;
-      line-height:1.7;
+      line-height:1.75;
+      font-size:1.06rem;
       max-width:62ch;
       margin:0 0 26px;
     }
-    .cta-row{display:flex; gap:14px; flex-wrap:wrap}
+
+    .cta-row{display:flex; flex-wrap:wrap; gap:14px}
     .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:14px 20px; border-radius:14px; text-decoration:none; font-weight:700;
-      transition:.25s ease; border:1px solid transparent;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px 20px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:800;
+      transition:.25s ease;
+      border:1px solid transparent;
+      position:relative;
+      overflow:hidden;
     }
+    .btn::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      transform:translateX(-120%) skewX(-18deg);
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+      transition:.5s ease;
+    }
+    .btn:hover::before{transform:translateX(120%) skewX(-18deg)}
+    .btn:hover{transform:translateY(-3px) scale(1.02)}
     .btn-primary{
       background:linear-gradient(135deg,var(--accent),#ff7a18);
       color:#fff;
-      box-shadow:0 10px 30px rgba(255,77,45,.28);
+      box-shadow:0 12px 30px rgba(255,77,45,.3);
     }
     .btn-secondary{
-      background:rgba(255,255,255,.04);
       color:#fff;
+      background:rgba(255,255,255,.04);
       border-color:var(--line);
     }
-    .btn:hover{transform:translateY(-3px) scale(1.02)}
-    .btn-primary:hover{box-shadow:0 16px 40px rgba(255,77,45,.38)}
-    .btn-secondary:hover{background:rgba(255,255,255,.08)}
 
     .stats{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:22px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:24px;
     }
     .stat{
-      padding:16px; border-radius:18px; background:rgba(255,255,255,.05); border:1px solid var(--line);
+      padding:16px;
+      border-radius:18px;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      transition:.25s ease;
     }
-    .stat b{display:block; font-size:1.4rem}
+    .stat:hover{transform:translateY(-4px); border-color:rgba(255,255,255,.22)}
+    .stat b{display:block; font-size:1.35rem}
     .stat span{color:var(--muted); font-size:.9rem}
 
     .hero-side{padding:22px}
     .mini{
       height:100%;
-      display:flex; flex-direction:column; justify-content:space-between; gap:16px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      justify-content:space-between;
     }
     .chip{
-      display:inline-flex; width:fit-content;
-      padding:8px 12px; border-radius:999px;
-      background:rgba(255,77,45,.12); border:1px solid rgba(255,77,45,.28);
-      color:#ffd4cc; font-size:.85rem;
+      display:inline-flex;
+      width:fit-content;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,77,45,.12);
+      border:1px solid rgba(255,77,45,.28);
+      color:#ffd7cf;
+      font-size:.84rem;
     }
-    .flightbox{
-      border-radius:20px; padding:18px;
+    .telemetry{
+      padding:18px;
+      border-radius:20px;
       background:
-        radial-gradient(circle at top, rgba(255,77,45,.28), transparent 45%),
+        radial-gradient(circle at top, rgba(255,77,45,.24), transparent 45%),
         rgba(255,255,255,.05);
       border:1px solid var(--line);
-      min-height:220px;
+      min-height:260px;
       position:relative;
       overflow:hidden;
     }
+    .telemetry::after{
+      content:"";
+      position:absolute;
+      inset:auto -30% -30% auto;
+      width:220px; height:220px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,179,71,.14), transparent 70%);
+      animation:float2 6s ease-in-out infinite;
+    }
+    @keyframes float2{50%{transform:translate(-16px,-14px) scale(1.08)}}
     .drone{
-      position:absolute; inset:auto 0 18px 0; margin:auto;
-      width:120px; height:120px; border-radius:50%;
-      border:2px solid rgba(255,255,255,.1);
-      box-shadow:0 0 30px rgba(255,77,45,.18);
-      animation: float 3.5s ease-in-out infinite;
+      position:absolute;
+      left:50%;
+      top:54%;
+      width:122px;
+      height:122px;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      border:2px solid rgba(255,255,255,.12);
+      box-shadow:0 0 32px rgba(255,77,45,.22);
+      animation: hover 3.2s ease-in-out infinite;
     }
     .drone::before,.drone::after{
-      content:""; position:absolute; left:50%; top:50%;
-      width:180px; height:6px; background:rgba(255,255,255,.18);
-      transform:translate(-50%,-50%);
+      content:"";
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:182px;
+      height:6px;
       border-radius:999px;
+      background:rgba(255,255,255,.18);
+      transform:translate(-50%,-50%);
     }
     .drone::after{transform:translate(-50%,-50%) rotate(90deg)}
-    @keyframes float{50%{transform:translateY(-10px)}}
-    .section{padding:22px 0 70px}
-    .section h2{
-      font-size:2rem; margin:0 0 14px;
+    @keyframes hover{50%{transform:translate(-50%,-58%)}}
+
+    .scanline{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to bottom, transparent, rgba(255,77,45,.08), transparent);
+      height:60px;
+      animation:scan 3.5s linear infinite;
+      pointer-events:none;
     }
-    .section p.lead{color:var(--muted); margin:0 0 22px; line-height:1.7}
+    @keyframes scan{from{transform:translateY(-80px)}to{transform:translateY(320px)}}
+
+    .ticker{
+      margin-top:16px;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+    }
+    .ticker-track{
+      display:flex;
+      gap:28px;
+      white-space:nowrap;
+      padding:12px 0;
+      animation:marquee 18s linear infinite;
+      color:#ffd7cf;
+      font-size:.92rem;
+    }
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    .section{padding:22px 0 70px}
+    .section h2{font-size:2rem; margin:0 0 14px}
+    .lead{color:var(--muted); line-height:1.7; margin:0 0 22px}
+
     .grid{
-      display:grid; grid-template-columns:repeat(4,1fr); gap:16px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
     }
     .card{
-      padding:20px; border-radius:20px;
-      background:linear-gradient(180deg, var(--card), rgba(255,255,255,.04));
+      padding:20px;
+      border-radius:20px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
       border:1px solid var(--line);
       box-shadow:var(--shadow);
-      transition:.25s ease;
+      transition:.28s ease;
       position:relative;
       overflow:hidden;
     }
-    .card::after{
-      content:""; position:absolute; inset:auto -20% -40% auto;
-      width:140px; height:140px; border-radius:50%;
-      background:radial-gradient(circle, rgba(255,77,45,.16), transparent 70%);
-      transition:.25s ease;
+    .card:hover{
+      transform:translateY(-10px) scale(1.01);
+      border-color:rgba(255,255,255,.24);
     }
-    .card:hover{transform:translateY(-8px); border-color:rgba(255,255,255,.22)}
-    .card:hover::after{transform:scale(1.18)}
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:auto -10% -30% auto;
+      width:150px;
+      height:150px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,77,45,.16), transparent 70%);
+      transition:.3s ease;
+    }
+    .card:hover::before{transform:scale(1.12)}
     .card h3{margin:0 0 8px}
     .card p{margin:0; color:var(--muted); line-height:1.6}
 
     .two{
-      display:grid; grid-template-columns:1.1fr .9fr; gap:16px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:16px;
       margin-top:16px;
     }
+
     table{
-      width:100%; border-collapse:collapse; overflow:hidden; border-radius:18px;
-      background:rgba(255,255,255,.05); border:1px solid var(--line);
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+      border-radius:18px;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
     }
-    th,td{padding:14px 16px; text-align:left; border-bottom:1px solid var(--line)}
-    th{color:#fff; background:rgba(255,255,255,.06)}
+    th,td{padding:14px 16px; border-bottom:1px solid var(--line); text-align:left}
+    th{background:rgba(255,255,255,.06)}
     td{color:var(--muted)}
+
     .timeline{display:grid; gap:14px}
     .step{
-      padding:16px; border-radius:18px; background:rgba(255,255,255,.05); border:1px solid var(--line)
+      padding:16px;
+      border-radius:18px;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      transition:.25s ease;
     }
+    .step:hover{transform:translateX(4px)}
     .step b{display:block; margin-bottom:6px; color:#fff}
+
     .footer{
-      padding:26px 0 40px; color:var(--muted); text-align:center;
+      text-align:center;
+      padding:26px 0 40px;
+      color:var(--muted);
       border-top:1px solid var(--line);
     }
 
-    .fade-in{opacity:0; transform:translateY(18px); animation:in .9s ease forwards}
+    .fade{opacity:0; transform:translateY(18px); animation:fadein .9s ease forwards}
     .d1{animation-delay:.08s}.d2{animation-delay:.18s}.d3{animation-delay:.28s}.d4{animation-delay:.38s}
-    @keyframes in{to{opacity:1; transform:none}}
+    @keyframes fadein{to{opacity:1; transform:none}}
 
-    @media (max-width: 900px){
+    @media(max-width:900px){
       .hero-grid,.grid,.two{grid-template-columns:1fr}
       .stats{grid-template-columns:1fr}
       h1{font-size:3.2rem}
@@ -228,6 +403,11 @@
   </style>
 </head>
 <body>
+  <div class="loader" id="loader">
+    <div class="loader-ring"></div>
+    <span>AGNI SHAKTI INITIALIZING</span>
+  </div>
+
   <nav>
     <div class="container navwrap">
       <div class="brand">AGNI <span>SHAKTI</span></div>
@@ -242,33 +422,43 @@
 
   <header class="hero">
     <div class="container hero-grid">
-      <div class="panel hero-main fade-in">
-        <div class="eyebrow"><span class="pulse"></span> Autonomous firefighting drone concept</div>
+      <div class="panel hero-main fade">
+        <div class="eyebrow"><span class="dot"></span> Autonomous firefighting drone concept</div>
         <h1><span class="gradient-text">Agni Shakti</span></h1>
         <p class="sub">
-          A dramatic portfolio site for your ESP32 + NodeMCU drone project, with a modern dark theme,
-          hover effects, animated cards, and a polished presentation style.
+          A high-energy project showcase with fire-glow visuals, motion, hover effects, and a futuristic engineering feel.
         </p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="#features">Explore features</a>
-          <a class="btn btn-secondary" href="#cost">View build cost</a>
+          <a class="btn btn-primary" href="#features">Explore Features</a>
+          <a class="btn btn-secondary" href="#cost">View Cost</a>
         </div>
         <div class="stats">
-          <div class="stat"><b>ESP32</b><span>flight + logic</span></div>
-          <div class="stat"><b>NodeMCU</b><span>mesh + data flow</span></div>
-          <div class="stat"><b>Betaflight</b><span>motor control</span></div>
+          <div class="stat"><b>ESP32</b><span>core control</span></div>
+          <div class="stat"><b>NodeMCU</b><span>mesh logic</span></div>
+          <div class="stat"><b>Betaflight</b><span>motor system</span></div>
         </div>
       </div>
 
-      <div class="panel hero-side fade-in d2">
+      <div class="panel hero-side fade d2">
         <div class="mini">
-          <div class="chip">Live concept showcase</div>
-          <div class="flightbox">
+          <div class="chip">Live mission display</div>
+          <div class="telemetry">
             <div class="drone"></div>
+            <div class="scanline"></div>
           </div>
           <p style="margin:0;color:var(--muted);line-height:1.6">
-            This layout is built to look like a real engineering startup page, not a plain school project.
+            This version keeps your dark fire theme but adds motion, depth, and a more advanced presentation.
           </p>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="ticker">
+        <div class="ticker-track">
+          <span>Hover lift effects</span><span>Animated fire glow</span><span>Sticky navigation</span>
+          <span>Mission-style UI</span><span>Glass cards</span><span>Smooth scrolling</span>
+          <span>Hover lift effects</span><span>Animated fire glow</span><span>Sticky navigation</span>
+          <span>Mission-style UI</span><span>Glass cards</span><span>Smooth scrolling</span>
         </div>
       </div>
     </div>
@@ -277,30 +467,30 @@
   <main>
     <section id="overview" class="section">
       <div class="container">
-        <h2 class="fade-in">Project Overview</h2>
-        <p class="lead fade-in d1">
-          Agni Shakti is your firefighting drone concept with navigation, fire-response logic, and a strong visual identity for GitHub Pages.
+        <h2 class="fade">Project Overview</h2>
+        <p class="lead fade d1">
+          Agni Shakti is your firefighting drone concept presented like a modern aerospace showcase page, with a premium visual style and clear project structure.
         </p>
         <div class="grid" id="features">
-          <div class="card fade-in d1"><h3>Autonomy</h3><p>Mission logic, coordinate handling, hover, payload drop, and RTL flow.</p></div>
-          <div class="card fade-in d2"><h3>Control Stack</h3><p>ESP32, NodeMCU, MPU6050, GPS, and magnetometer presentation.</p></div>
-          <div class="card fade-in d3"><h3>Flight System</h3><p>Betaflight-based motor control with your tested FC side.</p></div>
-          <div class="card fade-in d4"><h3>Mission Ready</h3><p>Built to show progress, versions, and build milestones clearly.</p></div>
+          <div class="card fade d1"><h3>Autonomy</h3><p>GPS navigation, hover control, payload drop, and RTL mission flow.</p></div>
+          <div class="card fade d2"><h3>Control Stack</h3><p>ESP32, NodeMCU, MPU6050, compass, and telemetry display.</p></div>
+          <div class="card fade d3"><h3>Flight System</h3><p>Betaflight-based motor control with a tested receiver and ESC path.</p></div>
+          <div class="card fade d4"><h3>Premium Look</h3><p>Glows, motion, glass cards, and polished interaction everywhere.</p></div>
         </div>
       </div>
     </section>
 
     <section id="build" class="section">
       <div class="container two">
-        <div class="fade-in">
+        <div class="fade">
           <h2>Build Versions</h2>
           <div class="timeline">
-            <div class="step"><b>v0.1</b> Basic flight control and receiver test phase.</div>
-            <div class="step"><b>v0.2</b> GPS navigation, heading stabilization, and data display.</div>
-            <div class="step"><b>v1.0</b> Fire detection input, confirm button, hover, payload release, and RTL.</div>
+            <div class="step"><b>v0.1</b> Flight controller and receiver testing complete.</div>
+            <div class="step"><b>v0.2</b> GPS, compass, and navigation UI improvements.</div>
+            <div class="step"><b>v1.0</b> Fire trigger, confirm action, payload release, and RTL.</div>
           </div>
         </div>
-        <div id="cost" class="fade-in d1">
+        <div id="cost" class="fade d1">
           <h2>Estimated Cost</h2>
           <table>
             <tr><th>Part</th><th>Estimate</th></tr>
@@ -315,8 +505,12 @@
     </section>
   </main>
 
-  <div class="footer">
-    Built for Agni Shakti • Devyansh Gupta • GitHub Pages
-  </div>
+  <div class="footer">Built for Agni Shakti • Devyansh Gupta • GitHub Pages</div>
+
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('loader').classList.add('hide'), 900);
+    });
+  </script>
 </body>
 </html>
