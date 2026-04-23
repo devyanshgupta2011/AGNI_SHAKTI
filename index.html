@@ -1,1 +1,73 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Agni Shakti - Autonomous Firefighting Drone</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background: linear-gradient(135deg, #ff6b35, #f7931e); color: #333; }
+        header { text-align: center; padding: 40px 20px; background: rgba(255,255,255,0.9); border-radius: 15px; margin-bottom: 30px; }
+        h1 { color: #d32f2f; font-size: 2.5em; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        section { margin: 25px 0; padding: 25px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        h2 { color: #ff6b35; border-bottom: 3px solid #f7931e; padding-bottom: 10px; }
+        ul { list-style-type: none; padding: 0; }
+        li { background: #f8f9fa; margin: 10px 0; padding: 15px; border-radius: 8px; border-left: 5px solid #ff6b35; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #ff6b35; color: white; }
+        footer { text-align: center; margin-top: 40px; padding: 20px; background: rgba(0,0,0,0.05); border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🚁 Agni Shakti</h1>
+        <p>ESP32-Based Autonomous Firefighting Drone for Urban Response</p>
+    </header>
+    
+    <section id="overview">
+        <h2>Project Overview</h2>
+        <p>Mesh NodeMCUs detect fires by coords, send to ESP32 TX base. Drone uses GPS/compass/iBUS (faked by NodeMCU) for nav, hovers, drops extinguisher balls, RTL home. Betaflight FC on F-450 frame.</p>
+    </section>
+    
+    <section id="components">
+        <h2>Components & Estimated Costs (₹)</h2>
+        <table>
+            <tr><th>Component</th><th>Qty</th><th>Cost</th></tr>
+            <tr><td>ESP32 (FC)</td><td>1</td><td>500</td></tr>
+            <tr><td>NodeMCU (Mesh/RX)</td><td>3</td><td>1,200</td></tr>
+            <tr><td>MPU6050 + Magnetometer</td><td>1</td><td>200</td></tr>
+            <tr><td>GPS Module</td><td>1</td><td>800</td></tr>
+            <tr><td>Motors + ESCs</td><td>4</td><td>1,600</td></tr>
+            <tr><td>F-450 Frame + Props</td><td>1</td><td>1,800</td></tr>
+            <tr><td>LiPo Batt + Charger</td><td>1</td><td>1,000</td></tr>
+            <tr><td>Payload Mech</td><td>1</td><td>300</td></tr>
+            <tr><td><strong>Total</strong></td><td>-</td><td><strong>~7,400</strong></td></tr>
+        </table>
+        <p>Sources: flyrobo.in, Chandni Market. One motor/ESC tested successfully.</p>
+    </section>
+    
+    <section id="progress">
+        <h2>Progress & Versions</h2>
+        <ul>
+            <li><strong>Test Phase:</strong> FC (Betaflight), RX (NodeMCU), 1 motor/ESC on all channels ✓</li>
+            <li><strong>v0.1:</strong> Basic flight control</li>
+            <li><strong>v1.0 (Next):</strong> Mesh fire detect, GPS nav, payload drop, RTL</li>
+            <li><strong>Pending:</strong> 3x motors/ESCS, frame (team ordering)</li>
+        </ul>
+    </section>
+    
+    <section id="tech">
+        <h2>Key Tech</h2>
+        <ul>
+            <li>ESP32 + Betaflight for motors</li>
+            <li>NodeMCU ESP8266 mesh for fire alerts</li>
+            <li>iBUS protocol (faked for autonomy)</li>
+            <li>MPU6050 IMU, magnetometer heading</li>
+        </ul>
+    </section>
+    
+    <footer>
+        <p>By Devyansh Gupta | ICSE Class 9 | Aiming for IIT KGP YIP | <a href="mailto:your@email.com">Contact</a></p>
+    </footer>
+</body>
+</html>
